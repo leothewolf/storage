@@ -151,3 +151,22 @@ To access the API endpoints securely, you need to include the secret key in the 
 - **Error**:
   - 401 Unauthorized: Invalid secret key
   - 500 Internal Server Error: Error details
+
+### 5. Mark ToDo Completed or Partial
+
+- **Endpoint**: `/todo/<int:id>/<status>`
+- **Method**: `PUT`
+- **Path Parameters**:
+  - `id`: ID of the ToDo item (integer)
+  - `status`: Updated status for the ToDo item (string, "partial" or "completed")
+
+#### Response
+
+- **Success**: 200 OK
+  - `message`: ToDo status updated to {status} successfully
+
+- **Error**:
+  - 400 Bad Request: Invalid status. Status must be either 'partial' or 'completed'
+  - 401 Unauthorized: Invalid secret key
+  - 404 Not Found: ToDo with the specified ID not found
+  - 500 Internal Server Error: Error details
