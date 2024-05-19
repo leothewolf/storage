@@ -89,8 +89,10 @@ To access the API endpoints securely, you need to include the secret key in the 
 - **Endpoint**: `/todo`
 - **Method**: `POST`
 - **Request Body**:
-  - `userid`: User ID for the ToDo (integer)
-  - `todo`: ToDo content (string, max 200 characters)
+  - `guildid`: Guild ID for the ToDo (string)
+  - `todo`: ToDo content (string, max 80 characters)
+  - `description`: Description of the ToDo (string, max 1024 characters)
+  - `user`: User mention (string, max 100 characters)
 
 #### Response
 
@@ -98,7 +100,8 @@ To access the API endpoints securely, you need to include the secret key in the 
   - `message`: ToDo inserted successfully!
 
 - **Error**:
-  - 400 Bad Request: ToDo can be of maximum 200 characters
+  - 400 Bad Request: ToDo can be a maximum of 80 characters; Description can be a maximum of 1024 characters; User can be a maximum of 100 characters
+  - 400 Bad Request: Missing required parameter
   - 401 Unauthorized: Invalid secret key
   - 500 Internal Server Error: Error details
 
@@ -107,7 +110,9 @@ To access the API endpoints securely, you need to include the secret key in the 
 - **Endpoint**: `/todo/<int:id>`
 - **Method**: `PUT`
 - **Request Body**:
-  - Same as the request body for creating a new ToDo
+  - `todo`: ToDo content (string, max 80 characters)
+  - `description`: Description of the ToDo (string, max 1024 characters)
+  - `user`: User mention (string, max 100 characters)
 
 #### Response
 
@@ -115,7 +120,8 @@ To access the API endpoints securely, you need to include the secret key in the 
   - `message`: ToDo updated successfully!
 
 - **Error**:
-  - 400 Bad Request: ToDo can be of maximum 200 characters
+  - 400 Bad Request: ToDo can be a maximum of 80 characters; Description can be a maximum of 1024 characters; User can be a maximum of 100 characters
+  - 400 Bad Request: Missing required parameter
   - 401 Unauthorized: Invalid secret key
   - 404 Not Found: ToDo with the specified ID not found
   - 500 Internal Server Error: Error details
@@ -135,35 +141,44 @@ To access the API endpoints securely, you need to include the secret key in the 
   - 404 Not Found: ToDo with the specified ID not found
   - 500 Internal Server Error: Error details
 
-### 4. Fetch ToDo for a User ID
+### 4. Fetch ToDos for a Guild ID
 
-- **Endpoint**: `/todo/<int:userid>`
+- **Endpoint**: `/todo/<int:guildid>`
 - **Method**: `GET`
 
 #### Response
 
 - **Success**: 200 OK
-  - List of ToDo items for the specified User ID in JSON format:
+  - List of ToDo items for the specified Guild ID in JSON format:
     - `id`: ToDo ID
-    - `userid`: User ID
+    - `guildid`: Guild ID
     - `todo`: ToDo content
+    - `description`: Description of the ToDo
+    - `user`: User mention
+    - `status`: ToDo status
 
 - **Error**:
   - 401 Unauthorized: Invalid secret key
   - 500 Internal Server Error: Error details
 
-### 5. Mark ToDo Completed or Partial
+### 5. Mark ToDo Completed, Partial, or Started
 
 - **Endpoint**: `/todo/<int:id>/<status>`
 - **Method**: `PUT`
 - **Path Parameters**:
   - `id`: ID of the ToDo item (integer)
-  - `status`: Updated status for the ToDo item (string, "partial" or "completed")
+  - `status`: Updated status for the ToDo item (string, "partial", "completed", or "started")
 
 #### Response
 
 - **Success**: 200 OK
   - `message`: ToDo status updated to {status} successfully
+
+- **Error**:
+  - 400 Bad Request: Invalid status. Status must be either "partial", "completed", or "started"
+  - 401 Unauthorized: Invalid secret key
+  - 404 Not Found: ToDo with the specified ID not found
+  - 500 Internal Server Error: Error details
 
 - **Error**:
   - 400 Bad Request: Invalid status. Status must be either 'partial' or 'completed'
