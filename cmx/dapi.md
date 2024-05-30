@@ -12,10 +12,10 @@ To access the API endpoints securely, you need to include the secret key in the 
 - **Endpoint**: `/sp`
 - **Method**: `POST`
 - **Request Body**:
-  - `channelid`: Channel ID for the scheduled ping (integer)
+  - `channelid`: Channel ID for the scheduled ping (string)
   - `content`: Content of the scheduled ping (string)
   - `name`: Name of the scheduled ping (string, max 25 characters)
-  - `posttime`: Timestamp for when the ping should be posted (integer)
+  - `posttime`: Timestamp for when the ping should be posted (string)
 
 #### Response
 
@@ -50,7 +50,7 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 ### 3. Update a Scheduled Ping by ID
 
-- **Endpoint**: `/sp/<int:id>`
+- **Endpoint**: `/sp/<str:id>`
 - **Method**: `PUT`
 - **Request Body**:
   - Same as the request body for creating a new scheduled ping
@@ -68,7 +68,7 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 ### 4. Delete a Scheduled Ping by ID
 
-- **Endpoint**: `/sp/<int:id>`
+- **Endpoint**: `/sp/<str:id>`
 - **Method**: `DELETE`
 
 #### Response
@@ -107,7 +107,7 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 ### 2. Update ToDo by ID
 
-- **Endpoint**: `/todo/<int:id>`
+- **Endpoint**: `/todo/<str:id>`
 - **Method**: `PUT`
 - **Request Body**:
   - `todo`: ToDo content (string, max 80 characters)
@@ -128,7 +128,7 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 ### 3. Delete ToDo by ID
 
-- **Endpoint**: `/todo/<int:id>`
+- **Endpoint**: `/todo/<str:id>`
 - **Method**: `DELETE`
 
 #### Response
@@ -143,7 +143,7 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 ### 4. Fetch ToDos for a Guild ID
 
-- **Endpoint**: `/todo/<int:guildid>`
+- **Endpoint**: `/todo/<str:guildid>`
 - **Method**: `GET`
 
 #### Response
@@ -163,10 +163,10 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 ### 5. Mark ToDo Completed, Partial, or Started
 
-- **Endpoint**: `/todo/<int:id>/<status>`
+- **Endpoint**: `/todo/<str:id>/<status>`
 - **Method**: `PUT`
 - **Path Parameters**:
-  - `id`: ID of the ToDo item (integer)
+  - `id`: ID of the ToDo item (string)
   - `status`: Updated status for the ToDo item (string, "partial", "completed", or "started")
 
 #### Response
@@ -176,12 +176,6 @@ To access the API endpoints securely, you need to include the secret key in the 
 
 - **Error**:
   - 400 Bad Request: Invalid status. Status must be either "partial", "completed", or "started"
-  - 401 Unauthorized: Invalid secret key
-  - 404 Not Found: ToDo with the specified ID not found
-  - 500 Internal Server Error: Error details
-
-- **Error**:
-  - 400 Bad Request: Invalid status. Status must be either 'partial' or 'completed'
   - 401 Unauthorized: Invalid secret key
   - 404 Not Found: ToDo with the specified ID not found
   - 500 Internal Server Error: Error details
